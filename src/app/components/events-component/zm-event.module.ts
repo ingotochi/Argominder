@@ -4,14 +4,14 @@ import { ZoneminderEvents } from "./zm-event.component";
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from "@angular/material/sort";
-import { CommonComponentModules } from "../components.module";
+import { SharedModule } from "../shared-module.module";
 
 const routes: Routes = [ { path: '', component: ZoneminderEvents} ]; 
 
 @NgModule({
   imports: [
       RouterModule.forChild(routes),
-      CommonComponentModules,
+      SharedModule,
       MatPaginatorModule,
       MatTableModule,
       MatSortModule,

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { ArgoMinderComponent } from './argominder.component';
-import { CommonComponentModules } from './components/components.module';
+import { SharedModule } from './components/shared-module.module';
 import { ChangeDetectorConfigurations } from './core/detectors/configurations.service';
 import { ChangeDetectorJwt } from './core/detectors/jwt.service';
 import { AuthGuardService as AuthGuard, AuthGuardService } from './services/auth-guard.service';
@@ -39,7 +39,7 @@ import { ZmService } from './services/zm.service';
     FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    CommonComponentModules
+    SharedModule
   ],
   bootstrap: [ArgoMinderComponent],
   providers: [ZmService, Auth, AuthGuardService, CommoneInitializer, ChangeDetectorJwt, ChangeDetectorConfigurations],

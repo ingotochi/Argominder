@@ -70,6 +70,7 @@ export interface Enum {
 
 export enum Menu {
     Home = '',
+    Login = 'login',
     Live = 'live',
     Settings = 'settings',
     Events = 'events'

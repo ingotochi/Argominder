@@ -6,14 +6,14 @@ import { ZoneminderConfigurator } from "./zm-configurator.component";
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSliderModule } from '@angular/material/slider';
-import { CommonComponentModules } from "../components.module";
+import { SharedModule } from "../shared-module.module";
 
 const routes: Routes = [{ path: '', component: ZoneminderConfigurator }];
 
 @NgModule({
   imports: [
     RouterModule.forChild(routes),
-    CommonComponentModules,
+    SharedModule,
     MatSelectModule,
     MatNativeDateModule,
     MatDatepickerModule,

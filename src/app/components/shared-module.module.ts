@@ -42,6 +42,6 @@ const dbConfig: DBConfig  = {
 
   exports: [FormsModule, CommonModule, MatButtonModule, MatInputModule, MatTabsModule, MatButtonToggleModule, MatIconModule, MatDialogModule, MatProgressSpinnerModule]
 })
-export class CommonComponentModules { }
+export class SharedModule { }
 
 

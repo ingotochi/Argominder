@@ -12,6 +12,7 @@ import { IConfigurationsList } from "src/app/interfaces/IConfigurationsList";
   templateUrl: 'streaming-preview.component.html',
   styleUrls: ['./streaming-preview.component.scss'],
 })
+
 export class ZoneminderStreamingPreview implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('streaming', { static: false }) streaming: ElementRef<HTMLImageElement>;
   @ViewChild('spinner', { read: ElementRef }) spinner: ElementRef<HTMLElement>;

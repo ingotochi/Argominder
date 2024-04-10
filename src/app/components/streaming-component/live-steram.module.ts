@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { RouterModule, Routes } from "@angular/router";
-import { CommonComponentModules } from "../components.module";
+import { SharedModule } from "../shared-module.module";
 import { ZoneminderLiveStreaming } from "./live-stream.component";
 
 const routes: Routes = [ { path: '', component: ZoneminderLiveStreaming} ]; 
@@ -9,7 +9,7 @@ const routes: Routes = [ { path: '', component: ZoneminderLiveStreaming} ];
 @NgModule({
   imports: [
       RouterModule.forChild(routes),
-      CommonComponentModules,
+      SharedModule,
       MatGridListModule,
     ],
     declarations: [

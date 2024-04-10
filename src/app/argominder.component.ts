@@ -1,5 +1,5 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit
+  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChangeDetectorJwt } from './core/detectors/jwt.service';
@@ -19,71 +19,56 @@ import { isNullOrEmptyString } from './utils/helper';
   styleUrls: ['./argominder.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArgoMinderComponent implements OnInit, AfterViewInit {
-  selectedTab: number = 0;
-  userAuthenticated: boolean;
-  private auth$: Subscription;
+export class ArgoMinderComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  private configurationsList: IConfigurationsList = {
-    camDiapason: [], eventsFilter: {} as IEventsFilter, previewStatus: false, streamingProperties: {} as IStreamProperties
-  };
+  // selectedTab: number = 0;
+  // userAuthenticated: boolean;
+
+    private auth$: Subscription;
+
+  // private configurationsList: IConfigurationsList = {
+  //   camDiapason: [], eventsFilter: {} as IEventsFilter, previewStatus: false, streamingProperties: {} as IStreamProperties
+  // };
 
   constructor(private changeRef: ChangeDetectorRef, private configurations: ChangeDetectorConfigurations,
     private jwt: ChangeDetectorJwt, public router: Router, public authConf: Auth) {
-    this.configurations.initializeDataChanges();
-    this.jwt.initializeDataChanges();
-    this.configurations.setAll(this.configurationsList);
 
-    this.auth$ = this.jwt.getDataChanges().pipe(filter(tt => tt.action === authActions.token)).subscribe(() => {
-      this.userAuthenticated = !isNullOrEmptyString(this.authConf.login.access_token) ? true : false;
+    // this.configurations.initializeDataChanges();
+    // this.jwt.initializeDataChanges();
+    // this.configurations.setAll(this.configurationsList);
+
+    this.auth$ = this.jwt.getDataChanges().pipe(filter(tt => tt.action === authActions.token)).subscribe((result) => {
+
+      (async () => {
+        const userLoggedIn: boolean = !isNullOrEmptyString(result.payload.access_token);
+        this.loadHomePageIfLoggedIn(userLoggedIn);
+      })();
+
       this.changeRef.markForCheck();
     })
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const userLoggedIn: boolean = await this.auth.userIsLogged();
+    this.loadHomePageIfLoggedIn(userLoggedIn);
   }
 
   ngAfterViewInit() {
   }
 
-  tabNavigation(tabIndex: number): void {
-    switch (tabIndex) {
-      case 0:
-        this.navigationPath(Menu.Home);
-        break;
-      case 1:
-        this.navigationPath(Menu.Live);
-        break;
-      case 2:
-        this.navigationPath(Menu.Events);
-        break;
-      case 3:
-        this.navigationPath(Menu.Settings);
-        break;
-      default:
-        break;
-    }
+  ngOnDestroy(): void {
+    this.auth$.unsubscribe();
   }
 
-  navigationPath(menuSelected: Menu): void {
-    let path: string;
-    switch (menuSelected) {
-      case Menu.Home:
-        path = Menu.Home;
-        break;
-      case Menu.Live:
-        path = Menu.Live;
-        break;
-      case Menu.Events:
-        path = Menu.Events;
-        break;
-      case Menu.Settings:
-        path = Menu.Settings;
-        break;
-      default:
-        break;
-    }
-    this.router.navigate([path]);
-  }
+  private loadHomePageIfLoggedIn(userAthenticated: boolean): void {
 
+    if (userAthenticated) {
+      this.router.navigate([Menu.Home]);
+    }
+    else {
+      if (location.origin != Menu.Login) {
+        this.router.navigate([Menu.Login]);
+      }
+    }
+  }
 }
